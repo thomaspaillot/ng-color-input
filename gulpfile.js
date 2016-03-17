@@ -39,7 +39,6 @@ gulp.task('partials', function () {
   return gulp.src('./src/**/*.html')
     .pipe(templateCache('templateCache.js', {
       module: 'ngColorInput',
-      root: 'src/',
       templateHeader: 'angular.module(\'<%= module %>\'<%= standalone %>).run(function($templateCache) {',
       templateBody: '$templateCache.put(\'<%= url %>\', \'<%= contents %>\');',
       templateFooter: '});'

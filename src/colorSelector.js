@@ -5,7 +5,7 @@ var colorSelector = {
     onUpdate: '&',
     onClose: '&'
   },
-  templateUrl: 'scripts/components/inputColor/colorSelector.html',
+  templateUrl: 'colorSelector.html',
   controller: ColorSelectorCtrl
 };
 
