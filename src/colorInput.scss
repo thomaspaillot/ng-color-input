@@ -1,0 +1,44 @@
+$input-color: #d0d0d0;
+
+.color-input {
+  position: relative;
+}
+
+.color-input-field {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    display: block;
+    width: 100%;
+    padding: 2px 40px 2px 8px;
+    height: 26px;
+    font-size: 14px;
+    line-height: 1.4;
+    background-color: transparent;
+    border: 1px solid $input-color;
+    border-radius: 0;
+    box-shadow: none;
+
+    &:focus,
+    &:focus:hover {
+      border-color: darken($input-color, 50%);
+      outline: 0;
+    }
+
+    &:hover {
+      border-color: darken($input-color, 30%);
+    }
+
+}
+
+.color-input-feedback {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 2;
+  display: block;
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+  text-align: center;
+  pointer-events: none;
+}

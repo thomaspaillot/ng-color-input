@@ -1,0 +1,211 @@
+$popover-arrow-width: 10px;
+$popover-arrow-outer-width: $popover-arrow-width + 1;
+
+.color-selector-popover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 400;
+  display: none;
+  max-width: 340px;
+  padding: 1px;
+  background-color: white;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+
+  &.bottom  {
+    top: 100%;
+    margin-top: $popover-arrow-width;
+  }
+
+  &.is-open {
+    display: block;
+  }
+}
+
+.color-selector-popover-content {
+  padding: 10px 20px;
+}
+
+.color-selector-popover > .arrow {
+  border-width: $popover-arrow-outer-width;
+
+  &,
+  &:after {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+  }
+
+  &:after {
+    border-width: $popover-arrow-width;
+    content: "";
+  }
+}
+
+.color-selector-popover.bottom > .arrow {
+  left: 50%;
+  margin-left: -$popover-arrow-outer-width;
+  border-top-width: 0;
+  border-bottom-color: rgba(0, 0, 0, 0.2);
+  top: -$popover-arrow-outer-width;
+
+  &:after {
+    content: " ";
+    top: 1px;
+    margin-left: -$popover-arrow-width;
+    border-top-width: 0;
+    border-bottom-color: white;
+  }
+}
+
+.color-selector-previews {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.color-selector-preview {
+  display: inline-block;
+  width: 50%;
+  height: 30px;
+}
+
+.color-selector-sliders {
+
+}
+
+.color-selector-slider {
+
+}
+
+@mixin color-range-thumb {
+  -webkit-appearance: none;
+  background: white;
+  border: 0;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+  height: 8px;
+  width: 4px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+@mixin color-range-track {
+  width: 100%;
+  height: 10px;
+  border: 0;
+  border-radius: 3px;
+  cursor: pointer;
+  background: #3071a9;
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+  padding: 1px;
+}
+
+@mixin hue-bg {
+  background: linear-gradient(to right, hsl(0, 100%, 50%) 0%, hsl(60, 100%, 50%) 16.5%, hsl(120, 100%, 50%) 33%, hsl(180, 100%, 50%) 49.5%, hsl(240, 100%, 50%) 66%, hsl(300, 100%, 50%) 82.5%, hsl(360, 100%, 50%) 100%);
+}
+
+@mixin saturation-bg {
+  background: linear-gradient(to right, hsl(0, 100%, 100%) 0%, hsl(0, 100%, 50%) 100%);
+}
+
+@mixin luminosity-bg {
+  background: linear-gradient(to right, hsl(0, 100%, 0) 0%, hsl(0, 100%, 100%) 100%);
+}
+
+input[type=range].color-selector-slider {
+  -webkit-appearance: none;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+input[type=range].color-selector-slider::-webkit-slider-thumb {
+  @include color-range-thumb;
+}
+
+input[type=range].color-selector-slider::-moz-range-thumb {
+  @include color-range-thumb;
+}
+
+input[type=range].color-selector-slider::-webkit-slider-runnable-track {
+  @include color-range-track;
+}
+
+input[type=range].color-selector-slider::-moz-range-track {
+  @include color-range-track;
+}
+
+input[type=range].color-selector-slider.color-selector-slider--hue::-webkit-slider-runnable-track {
+  @include hue-bg;
+}
+
+input[type=range].color-selector-slider.color-selector-slider--hue::-moz-range-track {
+  @include hue-bg;
+}
+
+input[type=range].color-selector-slider.color-selector-slider--saturation::-webkit-slider-runnable-track {
+  @include saturation-bg;
+}
+
+input[type=range].color-selector-slider.color-selector-slider--saturation::-moz-range-track {
+  @include saturation-bg;
+}
+
+input[type=range].color-selector-slider.color-selector-slider--luminosity::-webkit-slider-runnable-track {
+  @include luminosity-bg;
+}
+
+input[type=range].color-selector-slider.color-selector-slider--luminosity::-moz-range-track {
+  @include luminosity-bg;
+}
+
+input[type=range].color-selector-slider:focus::-webkit-slider-runnable-track {
+  outline: none;
+}
+
+input[type=range].color-selector-slider:focus::-moz-range-track {
+  outline: none;
+}
+
+.color-selector-button {
+  display: inline-block;
+  background-color: rgb(55, 55, 55);
+  vertical-align: middle;
+  white-space: nowrap;
+  font-family: inherit;
+  font-size: 15px;
+  cursor: pointer;
+  border: none;
+  margin: 0;
+  padding: 3px 20px;
+  border-radius: 1px;
+  opacity: 0.85;
+  color: white;
+
+  &,
+  &:hover
+  &:active,
+  &:focus {
+    text-decoration: none;
+  }
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &[disabled] {
+    opacity: 0.2;
+  }
+}
