@@ -1,19 +1,19 @@
 ;(function() {
 "use strict";
 
-angular.module('ngColorInput', []);
+angular.module('ngColorInput', [])
+  .constant('tinycolor', tinycolor);
 
-angular.module('ngColorInput').run(function($templateCache) {$templateCache.put('colorSelector.html', '<div class=\"color-selector-popover bottom\" ng-class=\"{\'is-open\': $ctrl.visible}\" ng-show=\"$ctrl.visible\">\n  <div class=\"arrow\"></div>\n  <div class=\"color-selector-popover-inner\">\n    <div class=\"color-selector-popover-content color-selector\">\n      <div class=\"color-selector-previews\">\n        <div class=\"color-selector-preview\" style=\"background-color:#{{$ctrl.inputColor}}\" ng-if=\"$ctrl.inputColor\"></div><!--\n      --><div class=\"color-selector-preview\" ng-style=\"$ctrl.getPreviewStyle()\" ng-if=\"!$ctrl.inputColor\"></div><!--\n      --><div class=\"color-selector-preview\" ng-style=\"$ctrl.getPreviewStyle()\"></div>\n      </div>\n      <div class=\"color-selector-sliders\">\n        <label for=\"colorHue\">Teinte</label>\n        <input name=\"colorHue\" class=\"color-selector-slider color-selector-slider--hue\" ng-change=\"$ctrl.updateColor($ctrl.currentColor)\" ng-model=\"$ctrl.currentColor.h\" type=\"range\" min=\"0\" max=\"3.6\" step=\"0.01\">\n        <label for=\"colorHue\">Saturation</label>\n        <input name=\"colorSaturation\" class=\"color-selector-slider color-selector-slider--saturation\" ng-change=\"$ctrl.updateColor($ctrl.currentColor)\" ng-model=\"$ctrl.currentColor.s\" type=\"range\" min=\"0\" max=\"1\" step=\"0.01\">\n        <label for=\"colorLuminosity\">Luminosité</label>\n        <input name=\"colorLuminosity\" class=\"color-selector-slider color-selector-slider--luminosity\" ng-change=\"$ctrl.updateColor($ctrl.currentColor)\" ng-model=\"$ctrl.currentColor.l\" type=\"range\" min=\"0\" max=\"1\" step=\"0.01\">\n      </div>\n      <button type=\"button\" class=\"color-selector-button\" ng-click=\"$ctrl.onClose()\">Fermer</button>\n    </div>\n  </div>\n</div>\n');});
+angular.module('ngColorInput').run(function($templateCache) {$templateCache.put('colorSelector.html', '<div class=\"color-selector-popover bottom\" ng-class=\"{\'is-open\': $ctrl.visible}\" ng-show=\"$ctrl.visible\">\n  <div class=\"arrow\"></div>\n  <div class=\"color-selector-popover-inner\">\n    <div class=\"color-selector-popover-content color-selector\">\n      <div class=\"color-selector-previews\">\n        <div class=\"color-selector-preview\" style=\"background-color:#{{$ctrl.inputColor}}\" ng-if=\"$ctrl.inputColor\"></div><!--\n      --><div class=\"color-selector-preview\" ng-style=\"$ctrl.getPreviewStyle()\" ng-if=\"!$ctrl.inputColor\"></div><!--\n      --><div class=\"color-selector-preview\" ng-style=\"$ctrl.getPreviewStyle()\"></div>\n      </div>\n      <div class=\"color-selector-sliders\">\n        <label for=\"colorHue\">Teinte</label>\n        <input name=\"colorHue\" class=\"color-selector-slider color-selector-slider--hue\" ng-change=\"$ctrl.updateColor($ctrl.currentColor)\" ng-model=\"$ctrl.currentColor.h\" type=\"range\" min=\"0\" max=\"360\" step=\"1\">\n        <label for=\"colorHue\">Saturation</label>\n        <input name=\"colorSaturation\" class=\"color-selector-slider color-selector-slider--saturation\" ng-change=\"$ctrl.updateColor($ctrl.currentColor)\" ng-model=\"$ctrl.currentColor.s\" type=\"range\" min=\"0\" max=\"1\" step=\"0.01\">\n        <label for=\"colorLuminosity\">Luminosité</label>\n        <input name=\"colorLuminosity\" class=\"color-selector-slider color-selector-slider--luminosity\" ng-change=\"$ctrl.updateColor($ctrl.currentColor)\" ng-model=\"$ctrl.currentColor.l\" type=\"range\" min=\"0\" max=\"1\" step=\"0.01\">\n      </div>\n      <button type=\"button\" class=\"color-selector-button\" ng-click=\"$ctrl.onClose()\">Fermer</button>\n    </div>\n  </div>\n</div>\n');});
 var colorInput = {
   bindings: {
-    inputColor: '<?',
-    onUpdate: '&'
+    color: '=?'
   },
   template: [
     '<div class="color-input">',
-    '<input type="text" class="color-input-field" name="color" ng-focus="$ctrl.openSelector()" ng-model="$ctrl.inputColor">',
-    '<div class="color-input-feedback" style="background-color:#{{$ctrl.inputColor}}"></div>',
-    '<color-selector input-color="$ctrl.inputColor" visible="$ctrl.selectorVisible" on-update="$ctrl.onUpdate({color: color})" on-close="$ctrl.closeSelector()"></color-selector>',
+    '<input type="text" class="color-input-field" name="color" ng-focus="$ctrl.openSelector()" ng-model="$ctrl.color">',
+    '<div class="color-input-feedback" style="background-color:#{{$ctrl.color}}"></div>',
+    '<color-selector input-color="$ctrl.color" visible="$ctrl.selectorVisible" on-update="$ctrl.updateColor(color)" on-close="$ctrl.closeSelector()"></color-selector>',
     '</div>'
   ].join(''),
   controller: ColorInputCtrl
@@ -24,6 +24,7 @@ function ColorInputCtrl() {
   vm.selectorVisible = false;
   vm.closeSelector = closeSelector;
   vm.openSelector = openSelector;
+  vm.updateColor = updateColor;
 
   ////////////////////
 
@@ -33,6 +34,10 @@ function ColorInputCtrl() {
 
   function openSelector() {
     vm.selectorVisible = true;
+  }
+
+  function updateColor(color) {
+    vm.color = color;
   }
 }
 
@@ -53,28 +58,23 @@ var colorSelector = {
 
 function ColorSelectorCtrl(tinycolor) {
   var vm = this;
+  vm.currentColor = {h: 160, s: 1, l: 0.5, a: 1};
   vm.getPreviewStyle = getPreviewStyle;
   vm.updateColor = updateColor;
 
-  vm.$onInit = function () {
-    var color = tinycolor('#' + vm.inputColor).toHsl();
-    vm.currentColor = {
-      h: (vm.inputColor) ? color.h / 100 : 1.6,
-      s: (vm.inputColor) ? color.s / 100 : 1,
-      l: (vm.inputColor) ? color.l / 100 : 0.5
-    };
-  };
+  if (vm.inputColor) {
+    vm.currentColor = tinycolor(angular.copy(vm.inputColor)).toHsl();
+  }
 
   //////////////////////////////
 
   function updateColor(color) {
-    var c = {h: color.h * 100, s: color.s * 100, l: color.l * 100};
-    vm.onUpdate({color: tinycolor(c).toHex()});
+    vm.onUpdate({color: tinycolor(color).toHex()});
   }
 
   function getPreviewStyle() {
     return {
-      'background-color': 'hsl(' + vm.currentColor.h * 100 + ', ' + vm.currentColor.s * 100 + '%, ' + vm.currentColor.l * 100 + '%)'
+      'background-color': tinycolor(vm.currentColor).toHslString()
     };
   }
 }
