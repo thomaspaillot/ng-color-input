@@ -4,7 +4,7 @@ var gulp = require('gulp');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
-var karma = require('karma');
+var KarmaServer = require('karma').Server;
 var rimraf = require('gulp-rimraf');
 var cssnano = require('gulp-cssnano');
 var sass = require('gulp-sass');
@@ -12,6 +12,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var ngAnnotate = require('gulp-ng-annotate');
 var iife = require('gulp-iife');
 var templateCache = require('gulp-angular-templatecache');
+var path = require('path');
 var distFolder = './dist';
 
 gulp.task('styles', function () {
@@ -25,14 +26,17 @@ gulp.task('styles', function () {
     .pipe(gulp.dest(distFolder));
 });
 
-gulp.task('karma', function () {
-  var server = new karma.Server({
-    configFile: './karma.conf.js',
+gulp.task('test', function (done) {
+  new KarmaServer({
+    configFile: path.join(__dirname, 'karma.conf.js'),
     singleRun: true
-  }, function (err) {
-    process.exit(err ? 1 : 0);
-  });
-  return server.start();
+  }, done).start();
+});
+
+gulp.task('tdd', function (done) {
+  new KarmaServer({
+    configFile: path.join(__dirname, 'karma.conf.js')
+  }, done).start();
 });
 
 gulp.task('partials', function () {
@@ -73,8 +77,4 @@ gulp.task('clean', function () {
 
 gulp.task('build', ['clean'], function () {
   return gulp.start('styles', 'uglify');
-});
-
-gulp.task('test', function () {
-  return gulp.start('karma');
 });
