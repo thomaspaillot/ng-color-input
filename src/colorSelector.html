@@ -9,7 +9,7 @@
       </div>
       <div class="color-selector-sliders">
         <label for="colorHue">Teinte</label>
-        <input name="colorHue" class="color-selector-slider color-selector-slider--hue" ng-change="$ctrl.updateColor($ctrl.currentColor)" ng-model="$ctrl.currentColor.h" type="range" min="0" max="3.6" step="0.01">
+        <input name="colorHue" class="color-selector-slider color-selector-slider--hue" ng-change="$ctrl.updateColor($ctrl.currentColor)" ng-model="$ctrl.currentColor.h" type="range" min="0" max="360" step="1">
         <label for="colorHue">Saturation</label>
         <input name="colorSaturation" class="color-selector-slider color-selector-slider--saturation" ng-change="$ctrl.updateColor($ctrl.currentColor)" ng-model="$ctrl.currentColor.s" type="range" min="0" max="1" step="0.01">
         <label for="colorLuminosity">Luminosité</label>

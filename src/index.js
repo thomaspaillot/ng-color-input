@@ -1,1 +1,2 @@
-angular.module('ngColorInput', []);
+angular.module('ngColorInput', [])
+  .constant('tinycolor', tinycolor);

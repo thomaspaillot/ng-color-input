@@ -1,13 +1,12 @@
 var colorInput = {
   bindings: {
-    inputColor: '<?',
-    onUpdate: '&'
+    color: '=?'
   },
   template: [
     '<div class="color-input">',
-    '<input type="text" class="color-input-field" name="color" ng-focus="$ctrl.openSelector()" ng-model="$ctrl.inputColor">',
-    '<div class="color-input-feedback" style="background-color:#{{$ctrl.inputColor}}"></div>',
-    '<color-selector input-color="$ctrl.inputColor" visible="$ctrl.selectorVisible" on-update="$ctrl.onUpdate({color: color})" on-close="$ctrl.closeSelector()"></color-selector>',
+    '<input type="text" class="color-input-field" name="color" ng-focus="$ctrl.openSelector()" ng-model="$ctrl.color">',
+    '<div class="color-input-feedback" style="background-color:#{{$ctrl.color}}"></div>',
+    '<color-selector input-color="$ctrl.color" visible="$ctrl.selectorVisible" on-update="$ctrl.updateColor(color)" on-close="$ctrl.closeSelector()"></color-selector>',
     '</div>'
   ].join(''),
   controller: ColorInputCtrl
@@ -18,6 +17,7 @@ function ColorInputCtrl() {
   vm.selectorVisible = false;
   vm.closeSelector = closeSelector;
   vm.openSelector = openSelector;
+  vm.updateColor = updateColor;
 
   ////////////////////
 
@@ -27,6 +27,10 @@ function ColorInputCtrl() {
 
   function openSelector() {
     vm.selectorVisible = true;
+  }
+
+  function updateColor(color) {
+    vm.color = color;
   }
 }
 
