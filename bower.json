@@ -1,7 +1,9 @@
 {
   "name": "ngColorInput",
   "version": "0.1.0",
-  "authors": ["Thomas Paillot <paillot.thomas@gmail.com>"],
+  "authors": [
+    "Thomas Paillot <paillot.thomas@gmail.com>"
+  ],
   "main": [
     "dist/ngColorInput.js",
     "dist/ngColorInput.css"
@@ -15,5 +17,8 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "devDependencies": {
+    "angular-mocks": "~1.5.1"
+  }
 }
