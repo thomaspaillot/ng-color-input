@@ -2,13 +2,15 @@ var colorSelector = {
   bindings: {
     inputColor: '<?',
     visible: '<',
-    onUpdate: '&',
-    onClose: '&'
+    onUpdate: '&'
   },
   templateUrl: 'colorSelector.html',
   controller: ColorSelectorCtrl
 };
 
+/*
+ * @ngInject
+ */
 function ColorSelectorCtrl(tinycolor) {
   var vm = this;
   vm.currentColor = {h: 160, s: 1, l: 0.5, a: 1};

@@ -24,15 +24,6 @@ describe('Component: colorInput', function () {
     expect(controller.selectorVisible).toBe(false);
   });
 
-  it('should expose closeSelector method', function () {
-    expect(controller.closeSelector).toBeDefined();
-  });
-
-  it('should expose set selectorVisible to false when closeSelector is called', function () {
-    controller.closeSelector();
-    expect(controller.selectorVisible).toBe(false);
-  });
-
   it('should expose openSelector method', function () {
     expect(controller.openSelector).toBeDefined();
   });
