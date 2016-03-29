@@ -4,15 +4,17 @@
 angular.module('ngColorInput', [])
   .constant('tinycolor', tinycolor);
 
-angular.module('ngColorInput').run(function($templateCache) {$templateCache.put('colorSelector.html', '<div class=\"color-selector-popover bottom\" ng-class=\"{\'is-open\': $ctrl.visible}\" ng-show=\"$ctrl.visible\">\n  <div class=\"arrow\"></div>\n  <div class=\"color-selector-popover-inner\">\n    <div class=\"color-selector-popover-content color-selector\">\n      <div class=\"color-selector-previews\">\n        <div class=\"color-selector-preview\" style=\"background-color:#{{$ctrl.inputColor}}\" ng-if=\"$ctrl.inputColor\"></div><!--\n      --><div class=\"color-selector-preview\" ng-style=\"$ctrl.getPreviewStyle()\" ng-if=\"!$ctrl.inputColor\"></div><!--\n      --><div class=\"color-selector-preview\" ng-style=\"$ctrl.getPreviewStyle()\"></div>\n      </div>\n      <div class=\"color-selector-sliders\">\n        <label for=\"colorHue\">Teinte</label>\n        <input name=\"colorHue\" class=\"color-selector-slider color-selector-slider--hue\" ng-change=\"$ctrl.updateColor($ctrl.currentColor)\" ng-model=\"$ctrl.currentColor.h\" type=\"range\" min=\"0\" max=\"360\" step=\"1\">\n        <label for=\"colorHue\">Saturation</label>\n        <input name=\"colorSaturation\" class=\"color-selector-slider color-selector-slider--saturation\" ng-change=\"$ctrl.updateColor($ctrl.currentColor)\" ng-model=\"$ctrl.currentColor.s\" type=\"range\" min=\"0\" max=\"1\" step=\"0.01\">\n        <label for=\"colorLuminosity\">Luminosité</label>\n        <input name=\"colorLuminosity\" class=\"color-selector-slider color-selector-slider--luminosity\" ng-change=\"$ctrl.updateColor($ctrl.currentColor)\" ng-model=\"$ctrl.currentColor.l\" type=\"range\" min=\"0\" max=\"1\" step=\"0.01\">\n      </div>\n    </div>\n  </div>\n</div>\n');});
+angular.module('ngColorInput').run(function($templateCache) {$templateCache.put('colorSelector.html', '<div class=\"color-selector-popover bottom\" ng-click=\"$ctrl.handleClick($event)\" ng-class=\"{\'is-open\': $ctrl.visible}\" ng-show=\"$ctrl.visible\">\n  <div class=\"arrow\"></div>\n  <div class=\"color-selector-popover-inner\">\n    <div class=\"color-selector-popover-content color-selector\">\n      <div class=\"color-selector-previews\">\n        <div class=\"color-selector-preview\" style=\"background-color:#{{$ctrl.inputColor}}\" ng-if=\"$ctrl.inputColor\"></div><!--\n      --><div class=\"color-selector-preview\" ng-style=\"$ctrl.getPreviewStyle()\" ng-if=\"!$ctrl.inputColor\"></div><!--\n      --><div class=\"color-selector-preview\" ng-style=\"$ctrl.getPreviewStyle()\"></div>\n      </div>\n      <div class=\"color-selector-sliders\">\n        <label for=\"colorHue\" class=\"color-selector-label\">Teinte</label>\n        <input name=\"colorHue\" class=\"color-selector-slider color-selector-slider--hue\" ng-change=\"$ctrl.updateColor($ctrl.currentColor)\" ng-model=\"$ctrl.currentColor.h\" type=\"range\" min=\"0\" max=\"360\" step=\"1\">\n        <label for=\"colorSaturation\" class=\"color-selector-label\">Saturation</label>\n        <input name=\"colorSaturation\" class=\"color-selector-slider color-selector-slider--saturation\" ng-change=\"$ctrl.updateColor($ctrl.currentColor)\" ng-model=\"$ctrl.currentColor.s\" type=\"range\" min=\"0\" max=\"1\" step=\"0.01\">\n        <label for=\"colorLuminosity\" class=\"color-selector-label\">Luminosité</label>\n        <input name=\"colorLuminosity\" class=\"color-selector-slider color-selector-slider--luminosity\" ng-change=\"$ctrl.updateColor($ctrl.currentColor)\" ng-model=\"$ctrl.currentColor.l\" type=\"range\" min=\"0\" max=\"1\" step=\"0.01\">\n      </div>\n    </div>\n  </div>\n</div>\n');
+$templateCache.put('index.html', '<!doctype html>\n<html class=\"no-js\" lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\">\n    <title>ngColorInput</title>\n    <meta name=\"description\" content=\"\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->\n\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"../dist/ngColorInput.min.css\">\n\n    <style media=\"screen\">\n      body {\n        font-family: Helvetica, Arial, sans-serif;\n      }\n      .form {\n        width: 250px;\n      }\n    </style>\n  </head>\n  <body ng-app=\"ngColorInput\">\n    <form class=\"form\">\n      <color-input></color-input>\n    </form>\n\n    <script src=\"../bower_components/angular/angular.js\"></script>\n    <script src=\"../bower_components/tinycolor/tinycolor.js\"></script>\n\n    <script src=\"index.js\"></script>\n    <script src=\"colorInput.js\"></script>\n    <script src=\"colorSelector.js\"></script>\n  </body>\n</html>\n');});
 var colorInput = {
   bindings: {
     color: '=?'
   },
   template: [
     '<div class="color-input">',
-    '<input type="text" class="color-input-field" name="color" ng-focus="$ctrl.openSelector()" ng-model="$ctrl.color">',
-    '<div class="color-input-feedback" style="background-color:#{{$ctrl.color}}"></div>',
+    '<div class="color-input-prefix">#</div>',
+    '<input type="text" class="color-input-field" name="color" ng-click="$ctrl.openSelector($event)" ng-model="$ctrl.color">',
+    '<div class="color-input-feedback" ng-class="{\'has-color\': $ctrl.color}" style="background-color:#{{$ctrl.color}}"></div>',
     '<color-selector input-color="$ctrl.color" visible="$ctrl.selectorVisible" on-update="$ctrl.updateColor(color)"></color-selector>',
     '</div>'
   ].join(''),
@@ -22,7 +24,7 @@ var colorInput = {
 /*
  * @ngInject
  */
-function ColorInputCtrl($document) {
+function ColorInputCtrl($scope, $document) {
   var vm = this;
   vm.selectorVisible = false;
   vm.openSelector = openSelector;
@@ -31,11 +33,14 @@ function ColorInputCtrl($document) {
   ////////////////////
 
   function closeSelector() {
-    vm.selectorVisible = false;
+    $scope.$apply(function () {
+      vm.selectorVisible = false;
+    });
     $document.off('click', closeSelector);
   }
 
-  function openSelector() {
+  function openSelector(evt) {
+    evt.stopPropagation();
     vm.selectorVisible = true;
     $document.on('click', closeSelector);
   }
@@ -67,6 +72,7 @@ function ColorSelectorCtrl(tinycolor) {
   vm.currentColor = {h: 160, s: 1, l: 0.5, a: 1};
   vm.getPreviewStyle = getPreviewStyle;
   vm.updateColor = updateColor;
+  vm.handleClick = handleClick;
 
   if (vm.inputColor) {
     vm.currentColor = tinycolor(angular.copy(vm.inputColor)).toHsl();
@@ -75,12 +81,17 @@ function ColorSelectorCtrl(tinycolor) {
   //////////////////////////////
 
   function updateColor(color) {
-    vm.onUpdate({color: tinycolor(color).toHex()});
+    vm.onUpdate({color: tinycolor(angular.copy(color)).toHex()});
+  }
+
+  function handleClick(evt) {
+    evt.stopPropagation();
   }
 
   function getPreviewStyle() {
+    var hslColor = vm.currentColor.h + ', ' + vm.currentColor.s * 100 + '%, ' + vm.currentColor.l * 100 + '%';
     return {
-      'background-color': tinycolor(vm.currentColor).toHslString()
+      'background-color': 'hsl(' + hslColor + ')'
     };
   }
 }

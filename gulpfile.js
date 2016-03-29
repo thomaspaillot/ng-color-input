@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
+var browserSync = require('browser-sync').create();
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
@@ -23,7 +24,8 @@ gulp.task('styles', function () {
     .pipe(gulp.dest(distFolder))
     .pipe(cssnano({safe: true}))
     .pipe(rename('ngColorInput.min.css'))
-    .pipe(gulp.dest(distFolder));
+    .pipe(gulp.dest(distFolder))
+    .pipe(browserSync.stream());
 });
 
 gulp.task('test', function (done) {
@@ -37,6 +39,22 @@ gulp.task('tdd', function (done) {
   new KarmaServer({
     configFile: path.join(__dirname, 'karma.conf.js')
   }, done).start();
+});
+
+gulp.task('serve', ['styles'], function () {
+  browserSync.init({
+    server: {
+      baseDir: ['./src'],
+      routes: {
+        '/bower_components': './bower_components',
+        '/dist': './dist'
+      }
+    }
+  });
+
+  gulp.watch('./src/*.scss', ['styles']);
+  gulp.watch('./src/*.html').on('change', browserSync.reload);
+  gulp.watch('./src/*.js').on('change', browserSync.reload);
 });
 
 gulp.task('partials', function () {

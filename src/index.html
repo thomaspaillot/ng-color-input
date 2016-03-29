@@ -1,0 +1,33 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ngColorInput</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <link rel="stylesheet" type="text/css" href="../dist/ngColorInput.min.css">
+
+    <style media="screen">
+      body {
+        font-family: Helvetica, Arial, sans-serif;
+      }
+      .form {
+        width: 250px;
+      }
+    </style>
+  </head>
+  <body ng-app="ngColorInput">
+    <form class="form">
+      <color-input></color-input>
+    </form>
+
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/tinycolor/tinycolor.js"></script>
+
+    <script src="index.js"></script>
+    <script src="colorInput.js"></script>
+    <script src="colorSelector.js"></script>
+  </body>
+</html>

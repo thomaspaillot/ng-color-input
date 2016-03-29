@@ -1,8 +1,9 @@
 {
   "name": "ngColorInput",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "dependencies": {},
   "devDependencies": {
+    "browser-sync": "^2.11.1",
     "cssnano": "^3.5.2",
     "eslint": "^2.4.0",
     "eslint-config-airbnb": "^6.1.0",

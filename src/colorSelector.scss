@@ -75,14 +75,6 @@ $popover-arrow-outer-width: $popover-arrow-width + 1;
   height: 30px;
 }
 
-.color-selector-sliders {
-
-}
-
-.color-selector-slider {
-
-}
-
 @mixin color-range-thumb {
   -webkit-appearance: none;
   background: white;
@@ -117,9 +109,15 @@ $popover-arrow-outer-width: $popover-arrow-width + 1;
   background: linear-gradient(to right, hsl(0, 100%, 0) 0%, hsl(0, 100%, 100%) 100%);
 }
 
+.color-selector-label {
+  font-size: 14px;
+  color: #787878;
+}
+
 input[type=range].color-selector-slider {
   -webkit-appearance: none;
   width: 100%;
+  margin: 0 0 5px;
 
   &:focus {
     outline: none;

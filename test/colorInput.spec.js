@@ -29,7 +29,8 @@ describe('Component: colorInput', function () {
   });
 
   it('should expose set selectorVisible to true when openSelector is called', function () {
-    controller.openSelector();
+    var evt = {stopPropagation: angular.noop};
+    controller.openSelector(evt);
     expect(controller.selectorVisible).toBe(true);
   });
 

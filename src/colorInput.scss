@@ -2,43 +2,82 @@ $input-color: #d0d0d0;
 
 .color-input {
   position: relative;
+  display: table;
+  border-collapse: separate;
 }
 
-.color-input-field {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    display: block;
-    width: 100%;
-    padding: 2px 40px 2px 8px;
-    height: 26px;
-    font-size: 14px;
-    line-height: 1.4;
-    background-color: transparent;
-    border: 1px solid $input-color;
-    border-radius: 0;
-    box-shadow: none;
+.color-input-prefix,
+.color-input-feedback {
+  box-sizing: border-box;
+  border: 1px solid $input-color;
+  width: auto;
+  text-align: center;
+  display: table-cell;
+  width: 1%;
+  white-space: nowrap;
+  line-height: 1;
+  padding: 2px 9px;
+}
 
-    &:focus,
-    &:focus:hover {
-      border-color: darken($input-color, 50%);
-      outline: 0;
-    }
-
-    &:hover {
-      border-color: darken($input-color, 30%);
-    }
-
+.color-input-prefix {
+  font-size: 14px;
+  border-right: 0;
+  color: #b4b4b4;
 }
 
 .color-input-feedback {
+  width: 26px;
+  border-left: 0;
+  background: white url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld2JveD0iMCAwIDI0IDI0Ij4NCiAgPHBhdGggZD0iTSAxNy4wMDAwMDAwMDAwMDAwMDQgNCBMIDIwLjAwMDAwMDAwMDAwMDAwNCA0IEwgNy4wMDAwMDAwMDAwMDAwMDIgMjAgTCA0LjAwMDAwMDAwMDAwMDAwMiAyMCBMIDE3LjAwMDAwMDAwMDAwMDAwNCA0IFoiIHN0cm9rZT0ibm9uZSIgZmlsbD0iI0E4QThBOCIgLz4NCjwvc3ZnPg==") left top no-repeat;
+
+  &.has-color {
+    background-image: none;
+  }
+}
+
+.color-input-field {
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+  display: table-cell;
+  width: 100%;
+  padding: 4px 40px 4px 8px;
+  height: 26px;
+  font-size: 14px;
+  line-height: 1.4;
+  background-color: transparent;
+  border: 1px solid $input-color;
+  border-radius: 0;
+  box-shadow: none;
+
+  &:focus,
+  &:focus:hover  {
+    border-color: darken($input-color, 50%);
+    outline: 0;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.25) inset;
+  }
+
+  &:hover {
+    border-color: darken($input-color, 30%);
+  }
+}
+
+/*.color-input-feedback {
   position: absolute;
   top: 0px;
   right: 0px;
   z-index: 2;
   display: block;
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   line-height: 26px;
   text-align: center;
   pointer-events: none;
-}
+  border: 1px solid $input-color;
+  background: white url("icon-blank.svg") left top no-repeat;
+
+  &.has-color {
+    background-image: none;
+  }
+}*/

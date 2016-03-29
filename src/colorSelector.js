@@ -16,6 +16,7 @@ function ColorSelectorCtrl(tinycolor) {
   vm.currentColor = {h: 160, s: 1, l: 0.5, a: 1};
   vm.getPreviewStyle = getPreviewStyle;
   vm.updateColor = updateColor;
+  vm.handleClick = handleClick;
 
   if (vm.inputColor) {
     vm.currentColor = tinycolor(angular.copy(vm.inputColor)).toHsl();
@@ -24,12 +25,17 @@ function ColorSelectorCtrl(tinycolor) {
   //////////////////////////////
 
   function updateColor(color) {
-    vm.onUpdate({color: tinycolor(color).toHex()});
+    vm.onUpdate({color: tinycolor(angular.copy(color)).toHex()});
+  }
+
+  function handleClick(evt) {
+    evt.stopPropagation();
   }
 
   function getPreviewStyle() {
+    var hslColor = vm.currentColor.h + ', ' + vm.currentColor.s * 100 + '%, ' + vm.currentColor.l * 100 + '%';
     return {
-      'background-color': tinycolor(vm.currentColor).toHslString()
+      'background-color': 'hsl(' + hslColor + ')'
     };
   }
 }

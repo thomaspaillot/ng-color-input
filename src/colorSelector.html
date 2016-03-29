@@ -1,4 +1,4 @@
-<div class="color-selector-popover bottom" ng-class="{'is-open': $ctrl.visible}" ng-show="$ctrl.visible">
+<div class="color-selector-popover bottom" ng-click="$ctrl.handleClick($event)" ng-class="{'is-open': $ctrl.visible}" ng-show="$ctrl.visible">
   <div class="arrow"></div>
   <div class="color-selector-popover-inner">
     <div class="color-selector-popover-content color-selector">
@@ -8,11 +8,11 @@
       --><div class="color-selector-preview" ng-style="$ctrl.getPreviewStyle()"></div>
       </div>
       <div class="color-selector-sliders">
-        <label for="colorHue">Teinte</label>
+        <label for="colorHue" class="color-selector-label">Teinte</label>
         <input name="colorHue" class="color-selector-slider color-selector-slider--hue" ng-change="$ctrl.updateColor($ctrl.currentColor)" ng-model="$ctrl.currentColor.h" type="range" min="0" max="360" step="1">
-        <label for="colorHue">Saturation</label>
+        <label for="colorSaturation" class="color-selector-label">Saturation</label>
         <input name="colorSaturation" class="color-selector-slider color-selector-slider--saturation" ng-change="$ctrl.updateColor($ctrl.currentColor)" ng-model="$ctrl.currentColor.s" type="range" min="0" max="1" step="0.01">
-        <label for="colorLuminosity">Luminosité</label>
+        <label for="colorLuminosity" class="color-selector-label">Luminosité</label>
         <input name="colorLuminosity" class="color-selector-slider color-selector-slider--luminosity" ng-change="$ctrl.updateColor($ctrl.currentColor)" ng-model="$ctrl.currentColor.l" type="range" min="0" max="1" step="0.01">
       </div>
     </div>
