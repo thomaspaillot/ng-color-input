@@ -1,2 +1,2 @@
 require('./src/index.js');
-module.exports = 'NgColorInputModule';
+module.exports = 'ngColorInput';
