@@ -14,7 +14,7 @@ module.exports = function (config) {
     files: [
       'node_modules/angular/angular.js',
       'node_modules/angular-mocks/angular-mocks.js',
-      'node_modules/tinycolor/tinycolor.js',
+      'node_modules/tinycolor2/tinycolor.js',
       'src/index.js',
       'src/colorInput.js',
       'src/colorSelector.js',
