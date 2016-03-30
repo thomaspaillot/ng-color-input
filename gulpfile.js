@@ -70,7 +70,7 @@ gulp.task('serve', ['styles'], function () {
 });
 
 gulp.task('partials', function () {
-  return gulp.src('./src/**/*.html')
+  return gulp.src('./src/*.html')
     .pipe(templateCache('templateCache.js', {
       module: 'ngColorInput',
       templateHeader: 'angular.module(\'<%= module %>\'<%= standalone %>).run(function($templateCache) {',
