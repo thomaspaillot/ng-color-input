@@ -6,7 +6,7 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var KarmaServer = require('karma').Server;
-var rimraf = require('gulp-rimraf');
+var del = require('del');
 var cssnano = require('gulp-cssnano');
 var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
@@ -15,6 +15,7 @@ var iife = require('gulp-iife');
 var templateCache = require('gulp-angular-templatecache');
 var path = require('path');
 var header = require('gulp-header');
+var runSequence = require('run-sequence');
 var pkg = require('./package.json');
 
 var distFolder = './dist';
@@ -56,10 +57,10 @@ gulp.task('tdd', function (done) {
 gulp.task('serve', ['styles'], function () {
   browserSync.init({
     server: {
-      baseDir: ['./src'],
+      baseDir: ['./demo'],
       routes: {
         '/node_modules': './node_modules',
-        '/dist': './dist'
+        distFolder: distFolder
       }
     }
   });
@@ -77,14 +78,14 @@ gulp.task('partials', function () {
       templateBody: '$templateCache.put(\'<%= url %>\', \'<%= contents %>\');',
       templateFooter: '});'
     }))
-    .pipe(gulp.dest('./src'));
+    .pipe(gulp.dest(distFolder));
 });
 
 gulp.task('concat', ['partials'], function () {
   return gulp.src(
     [
       'src/index.js',
-      'src/templateCache.js',
+      'dist/templateCache.js',
       'src/colorInput.js',
       'src/colorSelector.js'
     ])
@@ -106,9 +107,13 @@ gulp.task('uglify', ['concat'], function () {
 });
 
 gulp.task('clean', function () {
-  return gulp.src(distFolder, {read: false}).pipe(rimraf());
+  return del(path.join(distFolder, '/**/*'));
 });
 
-gulp.task('build', ['clean'], function () {
-  return gulp.start('styles', 'uglify');
+gulp.task('build', function () {
+  runSequence('clean', ['styles', 'uglify'], 'post-build');
+});
+
+gulp.task('post-build', function () {
+  return del(path.join(distFolder, 'templateCache.js'));
 });
