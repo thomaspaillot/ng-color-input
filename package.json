@@ -7,6 +7,8 @@
     "cssnano": "^3.5.2",
     "eslint": "^2.4.0",
     "eslint-config-airbnb": "^6.1.0",
+    "eslint-config-angular": "^0.5.0",
+    "eslint-plugin-angular": "^1.0.0",
     "gulp": "~3.9.0",
     "gulp-angular-templatecache": "^1.8.0",
     "gulp-autoprefixer": "^3.1.0",
@@ -35,6 +37,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "build": "gulp"
+    "build": "gulp build",
+    "test": "gulp test"
   }
 }

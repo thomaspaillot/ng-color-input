@@ -131,7 +131,7 @@
 input[type=range].color-selector-slider {
   -webkit-appearance: none;
   width: 100%;
-  margin: 0 0 5px; }
+  margin: 0; }
   input[type=range].color-selector-slider:focus {
     outline: none; }
 
