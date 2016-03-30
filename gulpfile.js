@@ -14,7 +14,19 @@ var ngAnnotate = require('gulp-ng-annotate');
 var iife = require('gulp-iife');
 var templateCache = require('gulp-angular-templatecache');
 var path = require('path');
+var header = require('gulp-header');
+var pkg = require('./package.json');
+
 var distFolder = './dist';
+
+var banner = ['/**',
+  ' * <%= pkg.name %> - <%= pkg.description %>',
+  ' * @version v<%= pkg.version %>',
+  ' * @link <%= pkg.repository.url %>',
+  ' * @license <%= pkg.license %>',
+  ' * @author <%= pkg.author %>',
+  ' */',
+  ''].join('\n');
 
 gulp.task('styles', function () {
   return gulp.src('./src/*.scss')
@@ -77,7 +89,11 @@ gulp.task('concat', ['partials'], function () {
       'src/colorSelector.js'
     ])
     .pipe(concat('ngColorInput.js'))
-    .pipe(iife())
+    .pipe(iife({
+      params: ['angular', 'tinycolor'],
+      args: ['window.angular', 'window.tinycolor']
+    }))
+    .pipe(header(banner, {pkg: pkg}))
     .pipe(gulp.dest(distFolder));
 });
 
