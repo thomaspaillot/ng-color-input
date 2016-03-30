@@ -46,7 +46,7 @@ gulp.task('serve', ['styles'], function () {
     server: {
       baseDir: ['./src'],
       routes: {
-        '/bower_components': './bower_components',
+        '/node_modules': './node_modules',
         '/dist': './dist'
       }
     }

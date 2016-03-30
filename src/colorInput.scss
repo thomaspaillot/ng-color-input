@@ -62,22 +62,3 @@ $input-color: #d0d0d0;
     border-color: darken($input-color, 30%);
   }
 }
-
-/*.color-input-feedback {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  z-index: 2;
-  display: block;
-  width: 24px;
-  height: 24px;
-  line-height: 26px;
-  text-align: center;
-  pointer-events: none;
-  border: 1px solid $input-color;
-  background: white url("icon-blank.svg") left top no-repeat;
-
-  &.has-color {
-    background-image: none;
-  }
-}*/
