@@ -54,20 +54,19 @@ gulp.task('tdd', function (done) {
   }, done).start();
 });
 
-gulp.task('serve', ['styles'], function () {
+gulp.task('serve', function () {
   browserSync.init({
     server: {
       baseDir: ['./demo'],
       routes: {
         '/node_modules': './node_modules',
-        distFolder: distFolder
+        '/dist': './dist'
       }
     }
   });
 
-  gulp.watch('./src/*.scss', ['styles']);
-  gulp.watch('./src/*.html').on('change', browserSync.reload);
-  gulp.watch('./src/*.js').on('change', browserSync.reload);
+  gulp.watch(path.join(distFolder, '*.html')).on('change', browserSync.reload);
+  gulp.watch(path.join(distFolder, '*.js')).on('change', browserSync.reload);
 });
 
 gulp.task('partials', function () {
@@ -99,7 +98,7 @@ gulp.task('concat', ['partials'], function () {
 });
 
 gulp.task('uglify', ['concat'], function () {
-  return gulp.src(distFolder + '/ngColorInput.js')
+  return gulp.src(path.join(distFolder, 'ngColorInput.js'))
     .pipe(ngAnnotate())
     .pipe(uglify({preserveComments: 'some'}))
     .pipe(rename('ngColorInput.min.js'))
@@ -107,7 +106,7 @@ gulp.task('uglify', ['concat'], function () {
 });
 
 gulp.task('clean', function () {
-  return del(path.join(distFolder, '/**/*'));
+  return del(path.join(distFolder, '**/*'));
 });
 
 gulp.task('build', function () {
